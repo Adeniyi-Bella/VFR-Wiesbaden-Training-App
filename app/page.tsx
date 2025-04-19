@@ -33,33 +33,6 @@ export default function LandingPage() {
         </div>
       </div>
 
-      {/* Features Section (placeholder) */}
-      {/* <section id="features" className="relative z-10 bg-background py-20">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-12">Key Features</h2>
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="bg-card p-6 rounded-lg shadow">
-              <h3 className="text-xl font-semibold mb-3">Player Management</h3>
-              <p className="text-muted-foreground">
-                Easily manage your team roster, track player details, and monitor individual progress.
-              </p>
-            </div>
-            <div className="bg-card p-6 rounded-lg shadow">
-              <h3 className="text-xl font-semibold mb-3">Training Sessions</h3>
-              <p className="text-muted-foreground">
-                Schedule and organize training sessions, track attendance, and record performance metrics.
-              </p>
-            </div>
-            <div className="bg-card p-6 rounded-lg shadow">
-              <h3 className="text-xl font-semibold mb-3">Performance Analytics</h3>
-              <p className="text-muted-foreground">
-                Visualize team and player performance with comprehensive analytics and reporting tools.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section> */}
-
       {/* Footer */}
       <footer className="relative z-10 bg-muted py-6">
         <div className="container mx-auto px-4">

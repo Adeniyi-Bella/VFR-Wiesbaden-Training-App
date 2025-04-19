@@ -25,6 +25,7 @@ import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { Calendar } from "@/components/ui/calendar"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import { useQueryClient } from "@tanstack/react-query"
 
 const sessionSchema = z.object({
   title: z.string().min(2, { message: "Title must be at least 2 characters" }),
@@ -43,6 +44,7 @@ type SessionDialogProps = {
 
 export function SessionDialog({ session, open, onOpenChange, mode }: SessionDialogProps) {
   const router = useRouter()
+  const queryClient = useQueryClient()
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   const form = useForm<SessionFormValues>({
@@ -78,6 +80,7 @@ export function SessionDialog({ session, open, onOpenChange, mode }: SessionDial
       }
 
       onOpenChange(false)
+      await queryClient.invalidateQueries({ queryKey: ["getTrainingSessions"] })
       router.refresh()
     } catch (error) {
       console.error("Error saving session:", error)

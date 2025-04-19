@@ -25,14 +25,20 @@ import {
 } from "@/components/ui/alert-dialog"
 import { Calendar, Clock, MapPin, MoreHorizontal, Eye, Edit, Trash, Users } from "lucide-react"
 import { SessionDialog } from "@/components/session-dialog"
-import {  deleteSession } from "@/app/actions/session-actions"
+import {  deleteSession, getTrainingSessions } from "@/app/actions/session-actions"
 import type { TrainingSession } from "@/types/session"
+import { useQuery, useQueryClient } from "@tanstack/react-query"
 
 
 
-export function SessionTableClient({ initialSessions }: { initialSessions: TrainingSession[] }) {
+// export function SessionTableClient({ initialSessions }: { initialSessions: TrainingSession[] }) {
+export function SessionTableClient() {
   const router = useRouter()
-  const [sessions] = useState<TrainingSession[]>(initialSessions)
+  const queryClient = useQueryClient()
+  const { data: sessions = [], isLoading, error } = useQuery({
+    queryKey: ["getTrainingSessions"],
+    queryFn: getTrainingSessions,
+  })
   const [selectedSession, setSelectedSession] = useState<TrainingSession | null>(null)
   const [viewDialogOpen, setViewDialogOpen] = useState(false)
   const [editDialogOpen, setEditDialogOpen] = useState(false)
@@ -44,6 +50,7 @@ export function SessionTableClient({ initialSessions }: { initialSessions: Train
     try {
       await deleteSession(selectedSession.id)
       setDeleteDialogOpen(false)
+      await queryClient.invalidateQueries({ queryKey: ["getTrainingSessions"] })
       router.refresh()
     } catch (error) {
       console.error("Failed to delete session:", error)
@@ -63,6 +70,9 @@ export function SessionTableClient({ initialSessions }: { initialSessions: Train
   const isUpcoming = (dateString: string) => {
     return new Date(dateString) >= new Date()
   }
+
+  if (isLoading) return <div>Training Sessions Laden...</div>
+  if (error) return <div>Fehler beim Laden der Training Sessions</div>
 
   return (
     <>

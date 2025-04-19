@@ -22,6 +22,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import { useQueryClient } from "@tanstack/react-query"
 
 const playerSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters" }),
@@ -42,6 +43,7 @@ type PlayerDialogProps = {
 export function PlayerDialog({ player, open, onOpenChange, mode }: PlayerDialogProps) {
   const router = useRouter()
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const queryClient = useQueryClient()
 
 
   const form = useForm<PlayerFormValues>({
@@ -73,9 +75,8 @@ export function PlayerDialog({ player, open, onOpenChange, mode }: PlayerDialogP
       }
 
       onOpenChange(false)
-      await getPlayers()
-      console.log(86);
-
+      await queryClient.invalidateQueries({ queryKey: ["getPlayers"] })
+      
       router.refresh()
     } catch (error) {
       console.error("Error saving player:", error)

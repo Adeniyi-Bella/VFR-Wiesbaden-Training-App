@@ -12,7 +12,7 @@ export default function LoginPage() {
           <div className="flex items-center justify-between h-16">
             <Link href="/" className="flex items-center gap-2 font-semibold">
               <span className="text-xl">🏋️</span>
-              <span>Training App</span>
+              <span>VFR Wiesbaden Training App</span>
             </Link>
           </div>
         </div>

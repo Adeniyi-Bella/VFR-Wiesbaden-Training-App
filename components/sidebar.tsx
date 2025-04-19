@@ -13,8 +13,8 @@ export function Sidebar() {
     { name: "Dashboard", href: "/dashboard", icon: Home },
     { name: "Spieler", href: "/dashboard/players", icon: Users },
     { name: "Training Sessions", href: "/dashboard/sessions", icon: Calendar },
-    { name: "Analytiks", href: "/dashboard/analytics", icon: BarChart },
-    { name: "Einstellungen", href: "/dashboard/settings", icon: Settings },
+    // { name: "Analytiks", href: "/dashboard/analytics", icon: BarChart },
+    // { name: "Einstellungen", href: "/dashboard/settings", icon: Settings },
   ]
 
   return (
@@ -82,7 +82,7 @@ export function Sidebar() {
         <div className="flex h-14 items-center border-b px-4">
           <Link href="/dashboard" className="flex items-center gap-2 font-semibold">
             <span className="text-xl">🏋️</span>
-            <span>Training App</span>
+            <span>VFR  Training App</span>
           </Link>
         </div>
         <nav className="flex-1 overflow-auto p-2">

@@ -25,15 +25,16 @@ import {
 import { Badge } from "@/components/ui/badge"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { MoreHorizontal, Eye, Edit, Trash } from "lucide-react"
-import {  deletePlayer } from "@/app/actions/player-actions"
+import {  deletePlayer, getPlayers } from "@/app/actions/player-actions"
 import type { Player } from "@/types/player"
 import { PlayerDialog } from "./player-dialog"
+import { useQuery, useQueryClient } from "@tanstack/react-query"
 
 
 
-export function PlayerTableClient({ initialPlayers }: { initialPlayers: Player[] }) {
+export function PlayerTableClient() {
   const router = useRouter()
-  const [players] = useState<Player[]>(initialPlayers)
+  const queryClient = useQueryClient()
   const [selectedPlayer, setSelectedPlayer] = useState<Player | null>(null)
   const [viewDialogOpen, setViewDialogOpen] = useState(false)
   const [editDialogOpen, setEditDialogOpen] = useState(false)
@@ -45,11 +46,18 @@ export function PlayerTableClient({ initialPlayers }: { initialPlayers: Player[]
     try {
       await deletePlayer(selectedPlayer.id)
       setDeleteDialogOpen(false)
+      await queryClient.invalidateQueries({ queryKey: ["getPlayers"] })
       router.refresh()
     } catch (error) {
       console.error("Failed to delete player:", error)
     }
   }
+
+  const { data: players = [], isLoading, error } = useQuery({
+    queryKey: ["getPlayers"],
+    queryFn: getPlayers,
+  })
+
 
   const getInitials = (name: string) => {
     return name
@@ -59,10 +67,8 @@ export function PlayerTableClient({ initialPlayers }: { initialPlayers: Player[]
       .toUpperCase()
   }
 
-  const formatDate = (dateString: string | null) => {
-    if (!dateString) return "N/A"
-    return new Date(dateString).toLocaleDateString()
-  }
+  if (isLoading) return <div>Spieler Laden...</div>
+  if (error) return <div>Fehler beim Laden der Spieler</div>
 
   return (
     <>
@@ -73,8 +79,6 @@ export function PlayerTableClient({ initialPlayers }: { initialPlayers: Player[]
               <TableHead>Spieler</TableHead>
               <TableHead>Position</TableHead>
               <TableHead>Mannschaft</TableHead>
-              {/* <TableHead>Alter</TableHead>
-              <TableHead>Eingetreten</TableHead> */}
               <TableHead>Status</TableHead>
               <TableHead className="w-[80px]">Aktionen</TableHead>
             </TableRow>
@@ -103,8 +107,6 @@ export function PlayerTableClient({ initialPlayers }: { initialPlayers: Player[]
                   </TableCell>
                   <TableCell>{player.position || "N/A"}</TableCell>
                   <TableCell>{player.mannschaft || "N/A"}</TableCell>
-                  {/* <TableCell>{player.age || "N/A"}</TableCell> */}
-                  {/* <TableCell>{formatDate(player.joined_date)}</TableCell> */}
                   <TableCell>
                     <Badge variant={player.status === "active" ? "default" : "secondary"}>{player.status}</Badge>
                   </TableCell>
