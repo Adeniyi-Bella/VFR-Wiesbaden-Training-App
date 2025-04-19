@@ -26,8 +26,8 @@ export function LandingNavbar() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 font-semibold text-white">
-            <span className="text-xl">🏋️</span>
-            <span className="text-lg">Training App</span>
+            <span className="text-xl">⚽</span>
+            <span className="text-lg">VFR Wiesbaden Training App</span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -36,10 +36,10 @@ export function LandingNavbar() {
               Features
             </Link>
             <Link href="/#about" className="text-white/80 hover:text-white transition-colors">
-              About
+              Über
             </Link>
             <Link href="/#contact" className="text-white/80 hover:text-white transition-colors">
-              Contact
+              Kontakt
             </Link>
           </nav>
 
@@ -49,10 +49,10 @@ export function LandingNavbar() {
               {isLoading ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Logging in...
+                  Einloggen...
                 </>
               ) : (
-                "Login"
+                "Anmelden"
               )}
             </Button>
           </div>
